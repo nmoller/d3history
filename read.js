@@ -77,6 +77,21 @@ function extractValues(serie, session) {
 }
 
 /**
+ * [treatSessions description]
+ * To centralise series insertions one we add more files.
+ * @param  {[type]} series [description]
+ * @return {[type]}        [description]
+ */
+function treatSessions(series) {
+	var data = [];
+	var sessions = ['automne-2016', 'hiver-2017', 'été-2017'];
+	series.forEach(function(d, i) {
+		data.push(extractValues(d, sessions[i]))
+	});
+	return data;
+}
+
+/**
  * [treatData description]
  * Chaque fichier ajoute une serie à traiter
  * @param  {[type]} error  [description]
@@ -86,13 +101,7 @@ function extractValues(serie, session) {
 function treatDataCours(error) {
 	// To catch all the series no mather how many we have
 	var series = Array.prototype.slice.call(arguments, 1);
-	var val1 = extractValues(series[0], 'automne-2016');
-	var val2 = extractValues(series[1], 'hiver-2017');
-	var val3 = extractValues(series[2], 'été-2017');
-	var data =[];
-	data.push(val1);
-	data.push(val2);
-	data.push(val3);
+	var data = treatSessions(series);
 
 	// Scale the range of the data in the domains
 	x.domain(data.map(function(d, i) { return d.session; }));
@@ -131,6 +140,7 @@ function treatDataCours(error) {
 	      .call(d3.axisLeft(y));
 }
 
+
 /**
  * [treatData description]
  * Chaque fichier ajoute une serie à traiter
@@ -141,13 +151,7 @@ function treatDataCours(error) {
 function treatDataEtudiants(error) {
 	// To catch all the series no mather how many we have
 	var series = Array.prototype.slice.call(arguments, 1);
-	var val1 = extractValues(series[0], 'automne-2016');
-	var val2 = extractValues(series[1], 'hiver-2017');
-	var val3 = extractValues(series[2], 'été-2017');
-	var data =[];
-	data.push(val1);
-	data.push(val2);
-	data.push(val3);
+	var data = treatSessions(series);
 
 	// Scale the range of the data in the domains
 	x.domain(data.map(function(d, i) { return d.session; }));
